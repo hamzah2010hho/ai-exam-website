@@ -3,116 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>المصحح الذكي الشامل</title>
+    <title>المصحح الذكي - دعم الصور والـ PDF</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
+    <script src="https://unpkg.com/tesseract.js@v2.1.0/dist/tesseract.min.js"></script>
+    
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #f4f7f6; padding: 20px; }
-        .container { max-width: 700px; margin: auto; background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        h1 { color: #2d3436; text-align: center; font-size: 24px; }
-        .upload-area { border: 2px dashed #6c5ce7; padding: 20px; border-radius: 10px; text-align: center; background: #f9f9ff; margin-bottom: 20px; }
-        button { background: #6c5ce7; color: white; border: none; padding: 12px; border-radius: 8px; width: 100%; cursor: pointer; font-size: 16px; transition: 0.3s; }
-        button:hover { background: #a29bfe; }
-        .loading { display: none; color: #6c5ce7; font-weight: bold; text-align: center; margin: 15px 0; }
-        #quiz-section { display: none; margin-top: 20px; }
-        textarea { width: 100%; height: 100px; margin-top: 10px; border-radius: 5px; border: 1px solid #ddd; padding: 10px; }
-        .q-box { background: #f1f2f6; padding: 15px; margin-bottom: 10px; border-radius: 8px; border-right: 4px solid #6c5ce7; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; padding: 20px; color: #333; line-height: 1.6; }
+        .container { max-width: 600px; margin: auto; background: white; padding: 25px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        h1 { color: #4f46e5; text-align: center; font-size: 22px; }
+        .card { border: 2px dashed #d1d5db; padding: 20px; border-radius: 12px; text-align: center; background: #f9fafb; margin-bottom: 20px; }
+        input[type="file"] { width: 100%; margin-bottom: 10px; }
+        button { background-color: #4f46e5; color: white; border: none; padding: 12px; border-radius: 8px; width: 100%; font-size: 16px; cursor: pointer; font-weight: bold; }
+        button:disabled { background-color: #9ca3af; }
+        .status { margin: 15px 0; text-align: center; font-weight: bold; color: #4f46e5; display: none; }
+        #result-area { display: none; background: #f3f4f6; padding: 15px; border-radius: 10px; margin-top: 20px; border-right: 5px solid #10b981; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>المصحح الذكي (صور + PDF) 🤖</h1>
-    
-    <div class="upload-area">
-        <p>ارفع (كتاب PDF) أو (صورة درس) أو الصق نصاً:</p>
-        <input type="file" id="file-input" accept=".pdf,image/*">
-        <textarea id="manual-text" placeholder="أو الصق النص هنا مباشرة..."></textarea>
+    <h1>مصحح الامتحانات الذكي 🤖</h1>
+    <div class="card">
+        <p>ارفع صورة للدرس أو ملف PDF</p>
+        <input type="file" id="upload-input" accept="image/*,application/pdf">
+        <p style="font-size: 12px; color: #666;">(ملاحظة: إذا كان الملف كبيراً، سنعالج أول صفحة فقط للسرعة)</p>
     </div>
 
-    <button id="main-btn" onclick="processAll()">توليد الامتحان الآن</button>
-    <div id="status" class="loading">⏳ جاري معالجة الملف واستخراج النص...</div>
+    <button id="action-btn" onclick="startProcess()">توليد الأسئلة الآن</button>
+    <div id="loader" class="status">⌛ جاري استخراج النص من الملف...</div>
 
-    <div id="quiz-section">
-        <div id="questions-list"></div>
-        <button onclick="alert('قريباً: ميزة التصحيح التلقائي!')" style="background:#00b894; margin-top:10px;">إرسال الإجابات</button>
+    <div id="result-area">
+        <h3 style="margin-top:0;">الأسئلة المقترحة:</h3>
+        <div id="output-text"></div>
+        <button onclick="location.reload()" style="background:#6b7280; margin-top:10px;">تجربة ملف آخر</button>
     </div>
 </div>
 
 <script>
-    const HF_TOKEN = "hf_QpTCEDrPhxVa0IPqoPxCJRbLwzkc0aQYkq"; // مفتاحك
-    const MODEL = "MistralAI/Mistral-7B-Instruct-v0.3"; 
+    const HF_KEY = "hf_QpTCEDrPhxVa0IPqoPxCJRbLwzkc0aQYkq"; 
+    const MODEL_NAME = "MistralAI/Mistral-7B-Instruct-v0.2";
 
-    async function processAll() {
-        const fileInput = document.getElementById('file-input');
-        const manualText = document.getElementById('manual-text').value;
-        const status = document.getElementById('status');
-        let finalContext = "";
+    async function startProcess() {
+        const fileInput = document.getElementById('upload-input');
+        const btn = document.getElementById('action-btn');
+        const loader = document.getElementById('loader');
 
-        status.style.display = "block";
-        status.innerText = "⏳ جاري قراءة البيانات...";
+        if (fileInput.files.length === 0) return alert("الرجاء اختيار ملف أولاً!");
 
+        const file = fileInput.files[0];
+        btn.disabled = true;
+        loader.style.display = "block";
+        
         try {
-            if (fileInput.files.length > 0) {
-                const file = fileInput.files[0];
-                if (file.type === "application/pdf") {
-                    finalContext = await readPDF(file);
-                } else {
-                    finalContext = await readImage(file);
-                }
+            let extractedText = "";
+            
+            if (file.type === "application/pdf") {
+                loader.innerText = "⌛ جاري قراءة ملف الـ PDF...";
+                extractedText = await parsePDF(file);
             } else {
-                finalContext = manualText;
+                loader.innerText = "⌛ جاري تحليل الصورة (OCR)...";
+                extractedText = await parseImage(file);
             }
 
-            if (!finalContext.trim()) throw new Error("لم نجد نصاً لمعالجته");
+            if (!extractedText || extractedText.length < 5) throw new Error("لم نتمكن من استخراج نص واضح.");
 
-            status.innerText = "🤖 الذكاء الاصطناعي يكتب الأسئلة...";
-            const questions = await askAI(finalContext);
-            displayQuestions(questions);
+            loader.innerText = "🤖 نرسل النص للذكاء الاصطناعي...";
+            await getAIQuestions(extractedText);
 
         } catch (err) {
-            alert("حدث خطأ: " + err.message);
+            alert("خطأ: " + err.message);
         } finally {
-            status.style.display = "none";
+            btn.disabled = false;
+            loader.style.display = "none";
         }
     }
 
-    async function readPDF(file) {
-        const arrayBuffer = await file.arrayBuffer();
-        const pdf = await pdfjsLib.getDocument({data: arrayBuffer}).promise;
-        let text = "";
-        // نكتفي بأول 5 صفحات فقط إذا كان الكتاب كبيراً لضمان السرعة
-        const pagesToRead = Math.min(pdf.numPages, 5); 
-        for (let i = 1; i <= pagesToRead; i++) {
-            const page = await pdf.getPage(i);
-            const content = await page.getTextContent();
-            text += content.items.map(s => s.str).join(" ");
-        }
-        return text;
+    async function parsePDF(file) {
+        const data = await file.arrayBuffer();
+        const pdf = await pdfjsLib.getDocument({data}).promise;
+        const page = await pdf.getPage(1); // نأخذ الصفحة الأولى فقط للسرعة
+        const content = await page.getTextContent();
+        return content.items.map(i => i.str).join(" ");
     }
 
-    async function readImage(file) {
-        const { data: { text } } = await Tesseract.recognize(file, 'ara+eng');
-        return text;
+    async function parseImage(file) {
+        const result = await Tesseract.recognize(file, 'ara+eng');
+        return result.data.text;
     }
 
-    async function askAI(context) {
-        const prompt = `<s>[INST] أنت معلم عربي. استخرج 3 أسئلة فقط من هذا النص: ${context.substring(0, 1000)}. اجعل الإجابة قائمة بسيطة. [/INST]`;
+    async function getAIQuestions(text) {
+        const prompt = `<s>[INST] أنت معلم خبير. بناءً على هذا النص، استخرج 3 أسئلة تعليمية مهمة باللغة العربية: ${text.substring(0, 1000)} [/INST]`;
         
-        const response = await fetch(`https://api-inference.huggingface.co/models/${MODEL}`, {
-            headers: { Authorization: `Bearer ${HF_TOKEN}`, "Content-Type": "application/json" },
+        const resp = await fetch(`https://api-inference.huggingface.co/models/${MODEL_NAME}`, {
+            headers: { Authorization: `Bearer ${HF_KEY}`, "Content-Type": "application/json" },
             method: "POST",
             body: JSON.stringify({ inputs: prompt })
         });
-        const result = await response.json();
-        return result[0].generated_text.split("[/INST]")[1] || result[0].generated_text;
-    }
-
-    function displayQuestions(text) {
-        const list = document.getElementById('questions-list');
-        list.innerHTML = `<div class="q-box">${text.replace(/\n/g, '<br>')}</div>`;
-        document.getElementById('quiz-section').style.display = "block";
+        
+        const data = await resp.json();
+        let finalOutput = data[0].generated_text.split("[/INST]")[1] || data[0].generated_text;
+        
+        document.getElementById('output-text').innerText = finalOutput;
+        document.getElementById('result-area').style.display = "block";
     }
 </script>
+
 </body>
 </html>
