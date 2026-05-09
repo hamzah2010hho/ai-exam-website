@@ -3,77 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة الامتحانات الذكية - النسخة الأردنية المستقرة</title>
+    <title>مكتبة المناهج الأردنية الرقمية</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f0f4f8; padding: 20px; text-align: center; }
-        .container { max-width: 600px; margin: auto; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-        h1 { color: #4a90e2; }
-        .upload-section { border: 2px dashed #4a90e2; padding: 20px; border-radius: 15px; margin-bottom: 20px; background: #f9fbff; }
-        button { background: #4a90e2; color: white; border: none; padding: 15px 30px; border-radius: 10px; cursor: pointer; font-size: 18px; width: 100%; transition: 0.3s; }
-        button:hover { background: #357abd; }
-        #quiz-display { display: none; margin-top: 20px; text-align: right; }
-        .q-card { background: #fff; border-right: 5px solid #4a90e2; padding: 15px; margin-bottom: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border-radius: 8px; }
-        .loader { display: none; font-weight: bold; color: #4a90e2; margin: 10px; }
+        :root { --primary: #2c3e50; --secondary: #3498db; --bg: #f4f7f6; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); margin: 0; padding: 0; color: var(--primary); }
+        header { background: var(--primary); color: white; padding: 20px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .container { max-width: 1000px; margin: 20px auto; padding: 20px; }
+        
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 40px; }
+        .class-card { background: white; padding: 20px; border-radius: 12px; text-align: center; border: 1px solid #ddd; transition: 0.3s; cursor: pointer; text-decoration: none; color: var(--primary); font-weight: bold; }
+        .class-card:hover { transform: translateY(-5px); border-color: var(--secondary); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        
+        .suggestion-box { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
+        input, textarea { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-family: inherit; }
+        button { background: var(--secondary); color: white; border: none; padding: 15px 30px; border-radius: 8px; cursor: pointer; width: 100%; font-size: 18px; transition: 0.3s; }
+        button:hover { background: #2980b9; }
+        
+        h2 { border-right: 5px solid var(--secondary); padding-right: 15px; margin-bottom: 25px; }
+        footer { text-align: center; padding: 20px; color: #777; font-size: 14px; }
     </style>
 </head>
 <body>
 
+<header>
+    <h1>📚 مكتبة المناهج الأردنية</h1>
+    <p>جميع الكتب المدرسية في مكان واحد</p>
+</header>
+
 <div class="container">
-    <h1>مصحح الامتحانات الذكي 🤖</h1>
-    <p>ارفع ملفك أو صورتك وسأقوم بتوليد اختبار فوري لك</p>
-    
-    <div class="upload-section">
-        <input type="file" id="fileInput" accept="image/*,.pdf" style="margin-bottom: 10px;">
-        <textarea id="textInput" placeholder="أو الصق نص الدرس هنا..." style="width: 100%; height: 80px; border-radius: 8px; border: 1px solid #ddd; padding: 10px;"></textarea>
+    <h2>اختر الصف الدراسي:</h2>
+    <div class="grid">
+        <a href="#" class="class-card">الصف الرابع</a>
+        <a href="#" class="class-card">الصف الخامس</a>
+        <a href="#" class="class-card">الصف السادس</a>
+        <a href="#" class="class-card">الصف السابع</a>
+        <a href="#" class="class-card">الصف الثامن</a>
+        <a href="#" class="class-card">الصف التاسع</a>
+        <a href="#" class="class-card">الصف العاشر</a>
+        <a href="#" class="class-card">الصف الحادي عشر</a>
+        <a href="#" class="class-card">الصف الثاني عشر (توجيهي)</a>
     </div>
 
-    <button onclick="generateQuiz()">توليد الامتحان الآن</button>
-    <div id="loading" class="loader">⏳ جاري تحليل المحتوى محلياً...</div>
+    <hr style="margin: 50px 0; border: 0; border-top: 1px solid #ddd;">
 
-    <div id="quiz-display">
-        <h3 style="color: #4a90e2;">الأسئلة المقترحة لمادتك:</h3>
-        <div id="questions"></div>
-        <button onclick="location.reload()" style="background: #6c757d; margin-top: 10px;">اختبار جديد</button>
+    <div class="suggestion-box">
+        <h2>هل لديك اقتراح أو كتاب مفقود؟</h2>
+        <p>أرسل لنا اقتراحك وسنرد عليك في أقرب وقت.</p>
+        
+        <form action="https://formspree.io/f/mldevqwv" method="POST">
+            <input type="hidden" name="_replyto" value="hmaznwaflh2010@gmail.com">
+            <input type="text" name="name" placeholder="اسمك الكريم" required>
+            <input type="email" name="email" placeholder="بريدك الإلكتروني" required>
+            <textarea name="message" rows="5" placeholder="اكتب اقتراحك هنا..." required></textarea>
+            <button type="submit">إرسال الاقتراح</button>
+        </form>
     </div>
 </div>
 
-<script>
-    // قاعدة بيانات الأسئلة (يمكنك إضافة مئات الأسئلة هنا لاحقاً)
-    const questionBank = [
-        { key: "وطنيه", questions: ["وضح مفهوم الانتماء الوطني؟", "اذكر ثلاثة من واجبات المواطن تجاه دولته.", "كيف نحافظ على الممتلكات العامة في الأردن؟"] },
-        { key: "دين", questions: ["ما هي أركان الإيمان الستة؟", "وضح أهمية الصدق في حياة المسلم.", "اذكر مثالاً من سيرة النبي صلى الله عليه وسلم في التسامح."] },
-        { key: "علوم", questions: ["ما هي أجزاء الخلية النباتية؟", "اشرح دورة حياة الماء في الطبيعة.", "كيف تتم عملية البناء الضوئي؟"] },
-        { key: "تاريخ", questions: ["ما هي أهم إنجازات الثورة العربية الكبرى؟", "تحدث عن الحضارة الأنباط في البتراء.", "كيف تأسست إمارة شرق الأردن؟"] }
-    ];
-
-    function generateQuiz() {
-        const text = document.getElementById('textInput').value.toLowerCase();
-        const loader = document.getElementById('loading');
-        const quizDisplay = document.getElementById('quiz-display');
-        const questionsDiv = document.getElementById('questions');
-
-        loader.style.display = "block";
-        quizDisplay.style.display = "none";
-        
-        // وقت وهمي للمعالجة لضمان تجربة مستخدم واقعية
-        setTimeout(() => {
-            loader.style.display = "none";
-            quizDisplay.style.display = "block";
-            questionsDiv.innerHTML = "";
-
-            // البحث عن أسئلة بناءً على الكلمات الموجودة في النص، وإذا لم يجد يختار عشوائياً
-            let found = questionBank.find(item => text.includes(item.key)) || questionBank[Math.floor(Math.random() * questionBank.length)];
-
-            found.questions.forEach((q, i) => {
-                questionsDiv.innerHTML += `
-                    <div class="q-card">
-                        <strong>س${i+1}:</strong> ${q}
-                        <textarea placeholder="اكتب إجابتك هنا..." style="width:100%; margin-top:10px; border-radius:5px; border:1px solid #eee; padding:5px;"></textarea>
-                    </div>`;
-            });
-        }, 1000);
-    }
-</script>
+<footer>
+    <p>تم التطوير بواسطة حمزة &copy; 2026</p>
+</footer>
 
 </body>
 </html>
