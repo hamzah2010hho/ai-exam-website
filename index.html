@@ -3,65 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مكتبة المناهج الأردنية الرقمية</title>
+    <title>مكتبة المناهج الأردنية</title>
     <style>
         :root { --primary: #2c3e50; --secondary: #3498db; --bg: #f4f7f6; }
         body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); margin: 0; padding: 0; color: var(--primary); }
-        header { background: var(--primary); color: white; padding: 20px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .container { max-width: 1000px; margin: 20px auto; padding: 20px; }
+        header { background: var(--primary); color: white; padding: 25px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .container { max-width: 900px; margin: 30px auto; padding: 20px; }
         
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 40px; }
-        .class-card { background: white; padding: 20px; border-radius: 12px; text-align: center; border: 1px solid #ddd; transition: 0.3s; cursor: pointer; text-decoration: none; color: var(--primary); font-weight: bold; }
-        .class-card:hover { transform: translateY(-5px); border-color: var(--secondary); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 50px; }
+        .class-card { background: white; padding: 20px; border-radius: 12px; text-align: center; border: 1px solid #ddd; transition: 0.3s; cursor: pointer; text-decoration: none; color: var(--primary); font-weight: bold; display: block; }
+        .class-card:hover { transform: translateY(-5px); border-color: var(--secondary); box-shadow: 0 5px 15px rgba(0,0,0,0.1); background: #fdfdfd; }
         
-        .suggestion-box { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
-        input, textarea { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-family: inherit; }
-        button { background: var(--secondary); color: white; border: none; padding: 15px 30px; border-radius: 8px; cursor: pointer; width: 100%; font-size: 18px; transition: 0.3s; }
+        .suggestion-box { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); border: 1px solid #eee; }
+        label { display: block; margin-top: 15px; font-weight: bold; }
+        input, textarea { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-family: inherit; }
+        button { background: var(--secondary); color: white; border: none; padding: 15px; border-radius: 8px; cursor: pointer; width: 100%; font-size: 18px; font-weight: bold; transition: 0.3s; margin-top: 10px; }
         button:hover { background: #2980b9; }
         
-        h2 { border-right: 5px solid var(--secondary); padding-right: 15px; margin-bottom: 25px; }
-        footer { text-align: center; padding: 20px; color: #777; font-size: 14px; }
+        h2 { border-right: 5px solid var(--secondary); padding-right: 15px; margin-bottom: 25px; color: var(--primary); }
+        footer { text-align: center; padding: 30px; color: #777; font-size: 14px; }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>📚 مكتبة المناهج الأردنية</h1>
-    <p>جميع الكتب المدرسية في مكان واحد</p>
+    <h1>📚 مكتبة المناهج الأردنية الرقمية</h1>
+    <p>تحميل الكتب المدرسية من الصف الرابع إلى الثاني عشر</p>
 </header>
 
 <div class="container">
-    <h2>اختر الصف الدراسي:</h2>
+    <h2>الصفوف الدراسية:</h2>
     <div class="grid">
-        <a href="#" class="class-card">الصف الرابع</a>
-        <a href="#" class="class-card">الصف الخامس</a>
-        <a href="#" class="class-card">الصف السادس</a>
-        <a href="#" class="class-card">الصف السابع</a>
-        <a href="#" class="class-card">الصف الثامن</a>
-        <a href="#" class="class-card">الصف التاسع</a>
-        <a href="#" class="class-card">الصف العاشر</a>
-        <a href="#" class="class-card">الصف الحادي عشر</a>
-        <a href="#" class="class-card">الصف الثاني عشر (توجيهي)</a>
+        <a href="https://elearning.jo/Pages/Books.aspx" target="_blank" class="class-card">الصف الرابع</a>
+        <a href="https://elearning.jo/Pages/Books.aspx" target="_blank" class="class-card">الصف الخامس</a>
+        <a href="https://elearning.jo/Pages/Books.aspx" target="_blank" class="class-card">الصف السادس</a>
+        <a href="https://elearning.jo/Pages/Books.aspx" target="_blank" class="class-card">الصف السابع</a>
+        <a href="https://elearning.jo/Pages/Books.aspx" target="_blank" class="class-card">الصف الثامن</a>
+        <a href="https://elearning.jo/Pages/Books.aspx" target="_blank" class="class-card">الصف التاسع</a>
+        <a href="https://elearning.jo/Pages/Books.aspx" target="_blank" class="class-card">الصف العاشر</a>
+        <a href="https://elearning.jo/Pages/Books.aspx" target="_blank" class="class-card">الصف الحادي عشر</a>
+        <a href="https://elearning.jo/Pages/Books.aspx" target="_blank" class="class-card">الصف الثاني عشر</a>
     </div>
 
-    <hr style="margin: 50px 0; border: 0; border-top: 1px solid #ddd;">
-
     <div class="suggestion-box">
-        <h2>هل لديك اقتراح أو كتاب مفقود؟</h2>
-        <p>أرسل لنا اقتراحك وسنرد عليك في أقرب وقت.</p>
+        <h2>قسم الاقتراحات</h2>
+        <p>أرسل اقتراحاتك وسنقوم بمراجعتها وإضافتها للموقع:</p>
         
         <form action="https://formspree.io/f/mldevqwv" method="POST">
-            <input type="hidden" name="_replyto" value="hmaznwaflh2010@gmail.com">
-            <input type="text" name="name" placeholder="اسمك الكريم" required>
-            <input type="email" name="email" placeholder="بريدك الإلكتروني" required>
-            <textarea name="message" rows="5" placeholder="اكتب اقتراحك هنا..." required></textarea>
-            <button type="submit">إرسال الاقتراح</button>
+            <input type="hidden" name="_replyto" value="nwaflh2010@gmail.com">
+            
+            <label for="name">الاسم:</label>
+            <input name="الاسم" id="name" type="text" placeholder="اكتب اسمك هنا" required>
+
+            <label for="email">بريدك الإلكتروني:</label>
+            <input name="Email" id="email" type="email" placeholder="example@mail.com" required>
+
+            <label for="message">الاقتراح:</label>
+            <textarea name="الاقتراح" id="message" rows="4" placeholder="ما هي الكتب أو الميزات التي تريد إضافتها؟" required></textarea>
+            
+            <button type="submit">إرسال الاقتراح الآن</button>
         </form>
     </div>
 </div>
 
 <footer>
-    <p>تم التطوير بواسطة حمزة &copy; 2026</p>
+    <p>جميع الحقوق محفوظة &copy; 2026 - مكتبة المناهج الأردنية</p>
 </footer>
 
 </body>
