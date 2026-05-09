@@ -2,193 +2,36 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مكتبة المناهج الأردنية الحديثة</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <title>مكتبة الكتب المدرسية الأردنية</title>
     <style>
-        body {
-            font-family: 'Cairo', sans-serif;
-            background-color: #f0f2f5;
-            margin: 0;
-            padding: 0;
-            color: #1a1a1a;
-        }
-        header {
-            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
-            color: white;
-            padding: 40px 20px;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        .container {
-            max-width: 800px;
-            margin: -30px auto 40px;
-            padding: 0 20px;
-        }
-        .class-card {
-            background: white;
-            border-radius: 15px;
-            margin-bottom: 15px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            overflow: hidden;
-            border: 1px solid #e5e7eb;
-        }
-        .class-header {
-            padding: 20px;
-            background: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            transition: background 0.3s;
-            font-weight: bold;
-            font-size: 18px;
-        }
-        .class-header:hover {
-            background: #f8fafc;
-        }
-        .class-header i {
-            color: #3b82f6;
-            font-size: 20px;
-        }
-        .books-list {
-            display: none;
-            padding: 0 20px 20px;
-            background: #fff;
-            border-top: 1px solid #f1f5f9;
-        }
-        .book-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 0;
-            border-bottom: 1px solid #f1f5f9;
-        }
-        .book-item:last-child { border-bottom: none; }
-        
-        .download-link {
-            background: #10b981;
-            color: white;
-            text-decoration: none;
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: bold;
-            transition: 0.3s;
-        }
-        .download-link:hover {
-            background: #059669;
-            transform: scale(1.05);
-        }
-        .suggestion-section {
-            background: #1e293b;
-            color: white;
-            padding: 30px;
-            border-radius: 20px;
-            margin-top: 40px;
-        }
-        .suggestion-section h2 { margin-top: 0; color: #60a5fa; }
-        input, textarea {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border-radius: 10px;
-            border: none;
-            font-family: 'Cairo', sans-serif;
-        }
-        .btn-send {
-            background: #3b82f6;
-            color: white;
-            border: none;
-            padding: 15px;
-            width: 100%;
-            border-radius: 10px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .btn-send:hover { background: #2563eb; }
-        footer { text-align: center; padding: 30px; color: #64748b; }
+        body { font-family: sans-serif; background: #eef2f3; text-align: center; padding: 20px; }
+        .box { max-width: 500px; margin: auto; background: white; padding: 20px; border-radius: 15px; shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .btn { display: block; background: #3498db; color: white; padding: 15px; margin: 10px 0; text-decoration: none; border-radius: 8px; font-weight: bold; }
+        .btn:hover { background: #2980b9; }
+        .contact { margin-top: 30px; border-top: 1px solid #ddd; padding-top: 20px; }
+        input, textarea { width: 90%; padding: 10px; margin: 5px 0; border: 1px solid #ccc; border-radius: 5px; }
+        .send { background: #27ae60; border: none; cursor: pointer; color: white; }
     </style>
 </head>
 <body>
 
-<header>
-    <h1>📚 مكتبة المناهج الأردنية</h1>
-    <p>بوابتك الذكية لجميع الكتب المدرسية بصيغة PDF</p>
-</header>
+<div class="box">
+    <h1>📚 مكتبة حمزة للكتب</h1>
+    <p>اختر الصف لتحميل الكتب مباشرة:</p>
 
-<div class="container">
-    
-    <div id="classesParent">
-        </div>
+    <a href="https://elearning.jo/Pages/Books.aspx" class="btn">كتب الصف الرابع - السادس</a>
+    <a href="https://elearning.jo/Pages/Books.aspx" class="btn">كتب الصف السابع - التاسع</a>
+    <a href="https://elearning.jo/Pages/Books.aspx" class="btn">كتب العاشر - التوجيهي</a>
 
-    <div class="suggestion-section">
-        <h2>💡 ركن الاقتراحات</h2>
-        <p>تواصل مع المطور (حمزة) مباشرة لأي إضافة:</p>
+    <div class="contact">
+        <h3>📧 أرسل اقتراحك لحمزة</h3>
         <form action="https://formspree.io/f/mldevqwv" method="POST">
-            <input type="email" name="email" placeholder="بريدك الإلكتروني" required>
-            <textarea name="message" rows="4" placeholder="اكتب اقتراحك هنا..." required></textarea>
-            <button type="submit" class="btn-send">إرسال الآن</button>
+            <input type="email" name="email" placeholder="إيميلك" required>
+            <textarea name="message" placeholder="اكتب اقتراحك هنا"></textarea>
+            <button type="submit" class="btn send">إرسال الاقتراح</button>
         </form>
     </div>
 </div>
-
-<footer>
-    <p>حقوق النشر محفوظة للمطور حمزة &copy; 2026</p>
-</footer>
-
-<script>
-    // بيانات الكتب الحقيقية (روابط مباشرة لموقع الوزارة)
-    const grades = [
-        { name: "الصف الرابع", books: ["الرياضيات", "العلوم", "اللغة العربية", "اللغة الإنجليزية", "التربية الإسلامية"] },
-        { name: "الصف الخامس", books: ["الرياضيات", "العلوم", "اللغة العربية", "الاجتماعيات", "التربية المهنية"] },
-        { name: "الصف السادس", books: ["الرياضيات", "العلوم", "اللغة العربية", "التاريخ", "الجغرافيا"] },
-        { name: "الصف السابع", books: ["الرياضيات", "العلوم", "اللغة العربية", "التربية الوطنية", "الحاسوب"] },
-        { name: "الصف الثامن", books: ["الرياضيات", "العلوم", "اللغة العربية", "الثقافة المالية", "التربية الفنية"] },
-        { name: "الصف التاسع", books: ["الرياضيات", "الكيمياء", "الفيزياء", "اللغة العربية", "الأحياء"] },
-        { name: "الصف العاشر", books: ["الرياضيات", "الفيزياء", "الكيمياء", "علوم الأرض", "اللغة الإنجليزية"] },
-        { name: "الصف الحادي عشر", books: ["اللغة العربية", "تاريخ الأردن", "الرياضيات", "الثقافة الإسلامية"] },
-        { name: "الصف الثاني عشر (التوجيهي)", books: ["اللغة العربية المشتركة", "تاريخ الأردن", "التربية الإسلامية", "اللغة الإنجليزية"] }
-    ];
-
-    const parent = document.getElementById('classesParent');
-
-    grades.forEach((grade, index) => {
-        const id = `grade-${index}`;
-        let booksHTML = '';
-        grade.books.forEach(book => {
-            booksHTML += `
-                <div class="book-item">
-                    <span>${book}</span>
-                    <a href="https://elearning.jo/Pages/Books.aspx" target="_blank" class="download-link">تحميل PDF</a>
-                </div>`;
-        });
-
-        parent.innerHTML += `
-            <div class="class-card">
-                <div class="class-header" onclick="toggle('${id}')">
-                    ${grade.name}
-                    <span>▼</span>
-                </div>
-                <div id="${id}" class="books-list">
-                    ${booksHTML}
-                </div>
-            </div>`;
-    });
-
-    function toggle(id) {
-        const el = document.getElementById(id);
-        const isOpen = el.style.display === "block";
-        
-        // إغلاق الكل أولاً
-        document.querySelectorAll('.books-list').forEach(list => list.style.display = "none");
-        
-        // فتح المطلوب فقط
-        el.style.display = isOpen ? "none" : "block";
-    }
-</script>
 
 </body>
 </html>
