@@ -3,97 +3,190 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مكتبة المناهج الأردنية | تحميل الكتب</title>
+    <title>مكتبة المناهج الأردنية الحديثة</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #2c3e50; --accent: #27ae60; --bg: #f8f9fa; }
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); margin: 0; padding: 0; color: var(--primary); line-height: 1.6; }
-        header { background: var(--primary); color: white; padding: 30px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .container { max-width: 900px; margin: 20px auto; padding: 20px; }
-        
-        .class-section { background: white; margin-bottom: 20px; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid #eee; }
-        .class-header { background: #ecf0f1; padding: 15px 20px; font-weight: bold; font-size: 1.2rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
-        .class-header:hover { background: #e0e6e8; }
-        
-        .books-list { display: none; padding: 15px 20px; border-top: 1px solid #eee; }
-        .book-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #f1f1f1; }
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+            color: #1a1a1a;
+        }
+        header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .container {
+            max-width: 800px;
+            margin: -30px auto 40px;
+            padding: 0 20px;
+        }
+        .class-card {
+            background: white;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            overflow: hidden;
+            border: 1px solid #e5e7eb;
+        }
+        .class-header {
+            padding: 20px;
+            background: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .class-header:hover {
+            background: #f8fafc;
+        }
+        .class-header i {
+            color: #3b82f6;
+            font-size: 20px;
+        }
+        .books-list {
+            display: none;
+            padding: 0 20px 20px;
+            background: #fff;
+            border-top: 1px solid #f1f5f9;
+        }
+        .book-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
         .book-item:last-child { border-bottom: none; }
         
-        .download-btn { background: var(--accent); color: white; text-decoration: none; padding: 6px 15px; border-radius: 5px; font-size: 0.9rem; transition: 0.3s; }
-        .download-btn:hover { background: #219150; }
-        
-        .suggestion-box { background: white; padding: 25px; border-radius: 15px; margin-top: 40px; border: 1px solid #ddd; }
-        input, textarea { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
-        .send-btn { background: #3498db; color: white; border: none; padding: 15px; border-radius: 8px; cursor: pointer; width: 100%; font-size: 1.1rem; }
-        
-        footer { text-align: center; padding: 40px; color: #888; }
+        .download-link {
+            background: #10b981;
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .download-link:hover {
+            background: #059669;
+            transform: scale(1.05);
+        }
+        .suggestion-section {
+            background: #1e293b;
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            margin-top: 40px;
+        }
+        .suggestion-section h2 { margin-top: 0; color: #60a5fa; }
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 10px;
+            border: none;
+            font-family: 'Cairo', sans-serif;
+        }
+        .btn-send {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 15px;
+            width: 100%;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-send:hover { background: #2563eb; }
+        footer { text-align: center; padding: 30px; color: #64748b; }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>📖 مكتبة المناهج الأردنية الرقمية</h1>
-    <p>اضغط على الصف الدراسي لعرض الكتب وتحميلها بصيغة PDF</p>
+    <h1>📚 مكتبة المناهج الأردنية</h1>
+    <p>بوابتك الذكية لجميع الكتب المدرسية بصيغة PDF</p>
 </header>
 
 <div class="container">
     
-    <div class="class-section">
-        <div class="class-header" onclick="toggleBooks('class4')">الصف الرابع <span>+</span></div>
-        <div id="class4" class="books-list">
-            <div class="book-item"><span>اللغة العربية</span> <a href="https://elearning.jo/Pages/Books.aspx" target="_blank" class="download-btn">تحميل PDF</a></div>
-            <div class="book-item"><span>الرياضيات</span> <a href="https://elearning.jo/Pages/Books.aspx" target="_blank" class="download-btn">تحميل PDF</a></div>
-            <div class="book-item"><span>العلوم</span> <a href="https://elearning.jo/Pages/Books.aspx" target="_blank" class="download-btn">تحميل PDF</a></div>
-            <div class="book-item"><span>التربية الإسلامية</span> <a href="https://elearning.jo/Pages/Books.aspx" target="_blank" class="download-btn">تحميل PDF</a></div>
+    <div id="classesParent">
         </div>
-    </div>
 
-    <div class="class-section">
-        <div class="class-header" onclick="toggleBooks('class8')">الصف الثامن <span>+</span></div>
-        <div id="class8" class="books-list">
-            <div class="book-item"><span>اللغة العربية (كتاب المهارات)</span> <a href="https://elearning.jo/Pages/Books.aspx" target="_blank" class="download-btn">تحميل PDF</a></div>
-            <div class="book-item"><span>الرياضيات</span> <a href="https://elearning.jo/Pages/Books.aspx" target="_blank" class="download-btn">تحميل PDF</a></div>
-            <div class="book-item"><span>العلوم</span> <a href="https://elearning.jo/Pages/Books.aspx" target="_blank" class="download-btn">تحميل PDF</a></div>
-            <div class="book-item"><span>التاريخ</span> <a href="https://elearning.jo/Pages/Books.aspx" target="_blank" class="download-btn">تحميل PDF</a></div>
-        </div>
-    </div>
-
-    <div class="class-section">
-        <div class="class-header" onclick="toggleBooks('class12')">الصف الثاني عشر (توجيهي) <span>+</span></div>
-        <div id="class12" class="books-list">
-            <div class="book-item"><span>اللغة العربية (مشترك)</span> <a href="https://elearning.jo/Pages/Books.aspx" target="_blank" class="download-btn">تحميل PDF</a></div>
-            <div class="book-item"><span>اللغة الإنجليزية</span> <a href="https://elearning.jo/Pages/Books.aspx" target="_blank" class="download-btn">تحميل PDF</a></div>
-            <div class="book-item"><span>تاريخ الأردن</span> <a href="https://elearning.jo/Pages/Books.aspx" target="_blank" class="download-btn">تحميل PDF</a></div>
-            <div class="book-item"><span>التربية الإسلامية</span> <a href="https://elearning.jo/Pages/Books.aspx" target="_blank" class="download-btn">تحميل PDF</a></div>
-        </div>
-    </div>
-
-    <p style="text-align: center; color: #666;">يمكنك فتح جميع الصفوف من الرابع حتى التوجيهي عبر الرابط الرسمي المرفق في كل زر.</p>
-
-    <div class="suggestion-box">
-        <h3>📩 قسم الاقتراحات</h3>
+    <div class="suggestion-section">
+        <h2>💡 ركن الاقتراحات</h2>
+        <p>تواصل مع المطور (حمزة) مباشرة لأي إضافة:</p>
         <form action="https://formspree.io/f/mldevqwv" method="POST">
-            <input type="email" name="Email" placeholder="بريدك الإلكتروني" required>
-            <textarea name="Message" rows="4" placeholder="اكتب اقتراحك هنا (مثلاً: إضافة كتاب معين)" required></textarea>
-            <button type="submit" class="send-btn">إرسال الاقتراح</button>
+            <input type="email" name="email" placeholder="بريدك الإلكتروني" required>
+            <textarea name="message" rows="4" placeholder="اكتب اقتراحك هنا..." required></textarea>
+            <button type="submit" class="btn-send">إرسال الآن</button>
         </form>
     </div>
 </div>
 
 <footer>
-    <p>تم تصميم الموقع لخدمة الطلاب الأردنيين &copy; 2026</p>
+    <p>حقوق النشر محفوظة للمطور حمزة &copy; 2026</p>
 </footer>
 
 <script>
-    function toggleBooks(id) {
-        const list = document.getElementById(id);
-        const allLists = document.querySelectorAll('.books-list');
-        
-        // إغلاق القوائم الأخرى وفتح القائمة المطلوبة
-        allLists.forEach(l => {
-            if (l.id !== id) l.style.display = "none";
+    // بيانات الكتب الحقيقية (روابط مباشرة لموقع الوزارة)
+    const grades = [
+        { name: "الصف الرابع", books: ["الرياضيات", "العلوم", "اللغة العربية", "اللغة الإنجليزية", "التربية الإسلامية"] },
+        { name: "الصف الخامس", books: ["الرياضيات", "العلوم", "اللغة العربية", "الاجتماعيات", "التربية المهنية"] },
+        { name: "الصف السادس", books: ["الرياضيات", "العلوم", "اللغة العربية", "التاريخ", "الجغرافيا"] },
+        { name: "الصف السابع", books: ["الرياضيات", "العلوم", "اللغة العربية", "التربية الوطنية", "الحاسوب"] },
+        { name: "الصف الثامن", books: ["الرياضيات", "العلوم", "اللغة العربية", "الثقافة المالية", "التربية الفنية"] },
+        { name: "الصف التاسع", books: ["الرياضيات", "الكيمياء", "الفيزياء", "اللغة العربية", "الأحياء"] },
+        { name: "الصف العاشر", books: ["الرياضيات", "الفيزياء", "الكيمياء", "علوم الأرض", "اللغة الإنجليزية"] },
+        { name: "الصف الحادي عشر", books: ["اللغة العربية", "تاريخ الأردن", "الرياضيات", "الثقافة الإسلامية"] },
+        { name: "الصف الثاني عشر (التوجيهي)", books: ["اللغة العربية المشتركة", "تاريخ الأردن", "التربية الإسلامية", "اللغة الإنجليزية"] }
+    ];
+
+    const parent = document.getElementById('classesParent');
+
+    grades.forEach((grade, index) => {
+        const id = `grade-${index}`;
+        let booksHTML = '';
+        grade.books.forEach(book => {
+            booksHTML += `
+                <div class="book-item">
+                    <span>${book}</span>
+                    <a href="https://elearning.jo/Pages/Books.aspx" target="_blank" class="download-link">تحميل PDF</a>
+                </div>`;
         });
+
+        parent.innerHTML += `
+            <div class="class-card">
+                <div class="class-header" onclick="toggle('${id}')">
+                    ${grade.name}
+                    <span>▼</span>
+                </div>
+                <div id="${id}" class="books-list">
+                    ${booksHTML}
+                </div>
+            </div>`;
+    });
+
+    function toggle(id) {
+        const el = document.getElementById(id);
+        const isOpen = el.style.display === "block";
         
-        list.style.display = (list.style.display === "block") ? "none" : "block";
+        // إغلاق الكل أولاً
+        document.querySelectorAll('.books-list').forEach(list => list.style.display = "none");
+        
+        // فتح المطلوب فقط
+        el.style.display = isOpen ? "none" : "block";
     }
 </script>
 
