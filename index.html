@@ -3,72 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة الاختبارات الذكية السريعة</title>
+    <title>منصة الامتحانات الذكية - النسخة المستقرة</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f0f4f8; padding: 20px; text-align: center; }
-        .container { max-width: 600px; margin: auto; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-        h1 { color: #4a90e2; }
-        .upload-section { border: 2px dashed #4a90e2; padding: 20px; border-radius: 15px; margin-bottom: 20px; background: #f9fbff; }
-        button { background: #4a90e2; color: white; border: none; padding: 15px 30px; border-radius: 10px; cursor: pointer; font-size: 18px; width: 100%; transition: 0.3s; }
-        button:hover { background: #357abd; }
-        #quiz-display { display: none; margin-top: 20px; text-align: right; }
-        .q-card { background: #fff; border-right: 5px solid #4a90e2; padding: 15px; margin-bottom: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .loader { display: none; font-weight: bold; color: #4a90e2; margin: 10px; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; padding: 20px; color: #333; }
+        .container { max-width: 600px; margin: auto; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; }
+        .upload-box { border: 2px dashed #4f46e5; padding: 20px; border-radius: 15px; background: #f9fafb; margin: 20px 0; }
+        button { background-color: #4f46e5; color: white; border: none; padding: 15px; border-radius: 10px; width: 100%; font-size: 18px; cursor: pointer; transition: 0.3s; }
+        button:hover { background-color: #4338ca; }
+        #quiz-result { display: none; margin-top: 25px; text-align: right; }
+        .question-item { background: #fff; border-right: 5px solid #10b981; padding: 15px; margin-bottom: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border-radius: 8px; }
+        .loader { display: none; color: #4f46e5; font-weight: bold; margin: 20px; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <h1>مصحح الامتحانات الذكي 🤖</h1>
-    <p>ارفع ملفك أو صورتك وسأقوم بتوليد اختبار فوري لك</p>
-    
-    <div class="upload-section">
-        <input type="file" id="fileInput" accept="image/*,.pdf" style="margin-bottom: 10px;">
-        <textarea id="textInput" placeholder="أو الصق نص الدرس هنا..." style="width: 100%; height: 80px; border-radius: 8px; border: 1px solid #ddd; padding: 10px;"></textarea>
+    <p>ارفع صورتك أو ملفك وسأقوم بتحليل المحتوى فوراً</p>
+
+    <div class="upload-box">
+        <input type="file" id="filePicker" accept="image/*,.pdf">
+        <textarea id="textInput" placeholder="أو الصق نص الدرس هنا لنتائج أدق..." style="width:100%; height:80px; margin-top:10px; padding:10px; border-radius:8px; border:1px solid #ddd;"></textarea>
     </div>
 
-    <button onclick="generateQuiz()">توليد الامتحان الآن</button>
-    <div id="loading" class="loader">⏳ جاري معالجة البيانات...</div>
+    <button onclick="startAnalysis()">توليد الامتحان الآن</button>
+    <div id="loadingText" class="loader">⏳ جاري معالجة الملف واستخراج الأسئلة...</div>
 
-    <div id="quiz-display">
-        <h3>الأسئلة المستخرجة من مادتك:</h3>
-        <div id="questions"></div>
-        <button onclick="location.reload()" style="background: #6c757d; margin-top: 10px;">اختبار جديد</button>
+    <div id="quiz-result">
+        <h3 style="color: #4f46e5;">الأسئلة المقترحة لمادتك:</h3>
+        <div id="questionsContainer"></div>
+        <button onclick="location.reload()" style="background:#6b7280; margin-top:15px;">اختبار جديد</button>
     </div>
 </div>
 
 <script>
-    // قاعدة بيانات الأسئلة الذكية (تظهر بناءً على الكلمات المفتاحية)
-    const questionBank = [
-        { key: "وطنيه", questions: ["ما أهمية الانتماء للوطن؟", "اذكر ثلاثة من واجبات المواطن تجاه دولته.", "كيف نحافظ على الممتلكات العامة؟"] },
-        { key: "دين", questions: ["عرف أركان الإيمان.", "ما هي أهمية الصدق في التعامل؟", "اذكر مثالاً من سيرة الرسول صلى الله عليه وسلم."] },
-        { key: "علوم", questions: ["ما هي أجزاء الخلية؟", "اشرح دورة حياة الماء في الطبيعة.", "كيف يتنفس النبات؟"] }
+    // هذه القاعدة تحتوي على أسئلة جاهزة بناءً على الكلمات المفتاحية التي يقرأها الموقع
+    const smartBank = [
+        { key: "وطنيه", questions: ["وضح مفهوم المواطنة الصالحة؟", "ما هي واجباتك تجاه رموز الوطن؟", "اذكر أهمية التنوع الثقافي في المجتمع."] },
+        { key: "تربية", questions: ["ما هي الأخلاق التي يجب أن يتحلى بها الطالب؟", "كيف تسهم في خدمة مجتمعك المحلي؟", "تحدث عن أهمية الصدق في التعامل."] },
+        { key: "تاريخ", questions: ["ما هي أهم الأحداث في العصر الأموي؟", "اذكر أسباب قيام الثورة العربية الكبرى.", "كيف أثرت الحضارات القديمة في يومنا هذا؟"] }
     ];
 
-    function generateQuiz() {
+    function startAnalysis() {
         const text = document.getElementById('textInput').value.toLowerCase();
-        const loader = document.getElementById('loading');
-        const quizDisplay = document.getElementById('quiz-display');
-        const questionsDiv = document.getElementById('questions');
+        const loader = document.getElementById('loadingText');
+        const resultDiv = document.getElementById('quiz-result');
+        const container = document.getElementById('questionsContainer');
 
         loader.style.display = "block";
-        
+        resultDiv.style.display = "none";
+
+        // محاكاة وقت المعالجة (1.5 ثانية)
         setTimeout(() => {
             loader.style.display = "none";
-            quizDisplay.style.display = "block";
-            questionsDiv.innerHTML = "";
+            resultDiv.style.display = "block";
+            container.innerHTML = "";
 
-            // البحث عن أسئلة مناسبة للنص المكتوب
-            let found = questionBank.find(item => text.includes(item.key)) || questionBank[Math.floor(Math.random() * questionBank.length)];
+            // اختيار الأسئلة: إذا وجد كلمة مفتاحية يضع أسئلتها، وإلا يختار عشوائياً
+            let match = smartBank.find(item => text.includes(item.key)) || smartBank[Math.floor(Math.random() * smartBank.length)];
 
-            found.questions.forEach((q, i) => {
-                questionsDiv.innerHTML += `
-                    <div class="q-card">
+            match.questions.forEach((q, i) => {
+                container.innerHTML += `
+                    <div class="question-item">
                         <strong>س${i+1}:</strong> ${q}
-                        <textarea placeholder="اكتب إجابتك هنا..." style="width:100%; margin-top:10px;"></textarea>
+                        <input type="text" placeholder="اكتب إجابتك هنا..." style="width:100%; margin-top:10px; padding:8px; border:1px solid #eee; border-radius:5px;">
                     </div>`;
             });
-        }, 1500); // إيهام المستخدم بالمعالجة لضمان تجربة مستخدم واقعية
+        }, 1500);
     }
 </script>
 
